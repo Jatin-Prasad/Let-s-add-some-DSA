@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> lastIndex(256, -1); // Store the last index of each character
+        int maxLen = 0, start = -1; // Initialize max length and start index
+
+        for (int i = 0; i < s.size(); ++i) {
+            if (lastIndex[s[i]] > start) { // If the character was seen after the current start
+                start = lastIndex[s[i]]; // Update the start position
+            }
+            lastIndex[s[i]] = i; // Update the last index of the character
+            maxLen = max(maxLen, i - start); // Update the maximum length
+        }
+
+        return maxLen; // Return the maximum length
+    }
+};
