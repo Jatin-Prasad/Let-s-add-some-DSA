@@ -1,0 +1,28 @@
+class Solution {
+    bool isValid(int row, int col, vector<vector<char>>& board) {
+        if (board[row][col] == '.') return true;
+        char val = board[row][col];
+        
+        for (int i = 0; i < 9; i++) {
+            // Check row
+            if (i != col && board[row][i] == val) return false;
+            // Check column
+            if (i != row && board[i][col] == val) return false;
+            // Check 3x3 sub-box
+            int boxRow = 3 * (row / 3) + i / 3;
+            int boxCol = 3 * (col / 3) + i % 3;
+            if ((boxRow != row || boxCol != col) && board[boxRow][boxCol] == val) return false;
+        }
+        return true;
+    }
+    
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (!isValid(i, j, board)) return false;
+            }
+        }
+        return true;
+    }
+};
