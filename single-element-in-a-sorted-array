@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        unordered_map<int,int>mp;
+    for (int i = 0; i < nums.size(); i++) {
+            mp[nums[i]]++;
+        }
+        
+        // Find the element that appears only once using a normal for loop
+        for (int i = 0; i < nums.size(); i++) {
+            if (mp[nums[i]] == 1) {
+                return nums[i];
+            }
+        }
+        
+        // This line should never be reached because there is always one unique element
+        return -1;
+    }
+};
