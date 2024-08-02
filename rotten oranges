@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        queue<pair<int, int>> q;
+        int fresh = 0;
+        
+        // Initialize the queue with all initially rotten oranges and count the fresh ones
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 2) {
+                    q.push({i, j});
+                }
+                if (grid[i][j] == 1) {
+                    fresh++;
+                }
+            }
+        }
+        
+        // If there are no fresh oranges, return 0
+        if (fresh == 0) return 0;
+        
+        int time = 0;
+        int drow[4] = {0, 0, 1, -1};
+        int dcol[4] = {1, -1, 0, 0};
+        
+        // Perform BFS
+        while (!q.empty()) {
+            int size = q.size();
+            bool progressed = false;
+            
+            for (int i = 0; i < size; ++i) {
+                int x = q.front().first;
+                int y = q.front().second;
+                q.pop();
+                
+                for (int j = 0; j < 4; ++j) {
+                    int nx = x + drow[j];
+                    int ny = y + dcol[j];
+                    
+                    if (nx < 0 || ny < 0 || nx >= n || ny >= m || grid[nx][ny] != 1) {
+                        continue;
+                    }
+                    
+                    grid[nx][ny] = 2;
+                    q.push({nx, ny});
+                    fresh--;
+                    progressed = true;
+                }
+            }
+            
+            if (progressed) {
+                time++;
+            }
+        }
+        
+        // If there are still fresh oranges left, return -1
+        return fresh == 0 ? time : -1;
+    }
+};
