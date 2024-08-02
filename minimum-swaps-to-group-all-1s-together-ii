@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int minSwaps(vector<int>& nums) {
+        int n = nums.size();
+        
+        // Step 1: Count the total number of 1's
+        int totalOnes = 0;
+        for (int i =0;i<n;i++) {
+            if (nums[i] == 1) totalOnes++;
+        }
+        
+        // Edge case: If there are no 1's or the array is all 1's
+        if (totalOnes == 0 || totalOnes == n) return 0;
+        
+        // Step 2: Use a sliding window to find the max number of 1's in any window of size totalOnes
+        int maxOnesInWindow = 0;
+        int currentOnes = 0;
+        
+        // Initialize the first window
+        for (int i = 0; i < totalOnes; i++) {
+            if (nums[i] == 1) currentOnes++;
+        }
+        maxOnesInWindow = currentOnes;
+        
+        // Slide the window across the array
+        for (int i = 1; i < n; i++) {
+            // Remove the element going out of the window
+            if (nums[i - 1] == 1) currentOnes--;
+            // Add the new element coming into the window
+            if (nums[(i + totalOnes - 1) % n] == 1) currentOnes++;
+            // Update the maximum number of 1's found in any window
+            maxOnesInWindow = max(maxOnesInWindow, currentOnes);
+        }
+        
+        // Step 3: Calculate the minimum swaps needed
+        return totalOnes - maxOnesInWindow;
+    }
+};
