@@ -5,6 +5,6 @@ public:
         {
             s[i]=tolower(s[i]);
         }
-        return s;
+        return s;//easy 
     }
 };
